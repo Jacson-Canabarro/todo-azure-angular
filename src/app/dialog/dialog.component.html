@@ -1,0 +1,35 @@
+<h1 mat-dialog-title>Atualizar Tarefa</h1>
+<div mat-dialog-content style="width: 400px">
+  <form [formGroup]="form" (ngSubmit)="submit()"  style="display: flex; flex-direction: column; justify-content: center;">
+    <mat-form-field appearance="outline" >
+      <mat-label>Nome da tarefa</mat-label>
+      <input matInput placeholder="" formControlName="nome" required>
+      <mat-error *ngIf="(form.get('nome')!.errors?.required) && form.get('nome')!.touched">Nome da tarefa é obrigatório</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label> Descrição</mat-label>
+      <input matInput  formControlName="descricao" required>
+      <mat-error *ngIf="(form.get('descricao')!.errors?.required) && form.get('descricao')!.touched">a descrição é obrigatória</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Responsavel</mat-label>
+      <input matInput  formControlName="responsavel" required>
+      <mat-error *ngIf="(form.get('responsavel')!.errors?.required) && form.get('responsavel')!.touched">nome do responsavel é obrigatório</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Situação</mat-label>
+      <mat-select formControlName="status" required>
+        <mat-option value="1">Aguardando</mat-option>
+        <mat-option value="2">Em andamento</mat-option>
+        <mat-option value="3">Feito</mat-option>
+      </mat-select>
+      <mat-error *ngIf="(form.get('status')!.errors?.required) && form.get('status')!.touched">a situação é obrigatória</mat-error>
+    </mat-form-field>
+    <div class="button">
+      <button mat-raised-button color="primary" type="submit" style="width: 50%;">Atualizar</button>
+    </div>
+  </form>
+</div>
