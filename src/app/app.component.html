@@ -1,0 +1,82 @@
+<router-outlet></router-outlet>
+<mat-toolbar color="primary">
+  <span>Todo List Azure Function</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    <mat-icon>favorite</mat-icon>
+  </button>
+</mat-toolbar>
+
+
+<div style="display: flex; flex-direction: column; flex-wrap: wrap; justify-content: center; align-items: center">
+
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false" style="width: 600px; margin: 15px " #painel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Incluir Tarefas
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <form [formGroup]="form" (ngSubmit)="submit()"  style="display: flex; flex-direction: column; justify-content: center;">
+      <mat-form-field appearance="outline" >
+        <mat-label>Nome da tarefa</mat-label>
+        <input matInput placeholder="" formControlName="nome" required>
+        <mat-error *ngIf="(form.get('nome')!.errors?.required) && form.get('nome')!.touched">Nome da tarefa é obrigatório</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label> Descrição</mat-label>
+        <input matInput  formControlName="descricao" required>
+        <mat-error *ngIf="(form.get('descricao')!.errors?.required) && form.get('descricao')!.touched">a descrição é obrigatória</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Responsavel</mat-label>
+        <input matInput  formControlName="responsavel" required>
+        <mat-error *ngIf="(form.get('responsavel')!.errors?.required) && form.get('responsavel')!.touched">nome do responsavel é obrigatório</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Situação</mat-label>
+        <mat-select formControlName="status" required>
+          <mat-option value="1">Aguardando</mat-option>
+          <mat-option value="2">Em andamento</mat-option>
+          <mat-option value="3">Feito</mat-option>
+        </mat-select>
+        <mat-error *ngIf="(form.get('status')!.errors?.required) && form.get('status')!.touched">a situação é obrigatória</mat-error>
+      </mat-form-field>
+      <div class="button">
+        <button mat-raised-button color="primary" type="submit" style="width: 50%;">Cadastrar</button>
+      </div>
+    </form>
+  </mat-expansion-panel>
+
+</div>
+
+
+<div class="flex-container">
+  <mat-card style="max-width: 400px; margin: 5px; background-color: antiquewhite; display: flex; flex-direction: column; justify-content: center; align-items: center; clear: both" *ngFor="let task of $tasks | async">
+    <mat-chip-list style="position: absolute; margin-bottom: 185px">
+      <mat-chip>
+        {{task.status}}
+      </mat-chip>
+    </mat-chip-list>
+
+    <mat-card-header>
+      <mat-card-title>{{task.name}}</mat-card-title>
+      <mat-card-subtitle style="margin-right: -5%"> {{task.assignedFor}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content  style=" max-width: 250px">
+        {{task.description}}
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-button (click)="openDialog(task)">Editar</button>
+      <button mat-button (click)="delete(task)">Deletar</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+
+
+
